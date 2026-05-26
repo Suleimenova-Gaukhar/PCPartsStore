@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZF84FOzCxl4=",
+  "dgSpecHash": "9gQs+/+eVVA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore.csproj",
+  "projectFilePath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\PCPartsStore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nilef\\.nuget\\packages\\avalonia\\12.0.3\\avalonia.12.0.3.nupkg.sha512",
     "C:\\Users\\nilef\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.25547.20250602\\avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore.csproj": {}
+    "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\PCPartsStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore.csproj": {
+    "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\PCPartsStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore.csproj",
+        "projectUniqueName": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\PCPartsStore.csproj",
         "projectName": "PCPartsStore",
-        "projectPath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore.csproj",
+        "projectPath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\PCPartsStore.csproj",
         "packagesPath": "C:\\Users\\nilef\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\obj\\",
+        "outputPath": "C:\\Users\\nilef\\OneDrive - Universitatea Politehnica Timisoara\\Desktop\\MTP Proiectare\\PCPartsStore\\PCPartsStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
