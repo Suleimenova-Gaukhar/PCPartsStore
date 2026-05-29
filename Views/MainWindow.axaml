@@ -4,43 +4,108 @@
         x:Class="PCPartsStore.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="PC Parts Store"
-        Width="1000" Height="650"
+        Width="1100" Height="650"
         WindowStartupLocation="CenterScreen">
 
-  <Grid ColumnDefinitions="200,*">
+  <Grid ColumnDefinitions="Auto,*">
 
-    <!-- Left navigation sidebar -->
     <Border Grid.Column="0"
-            Background="#3EB8DA"
-            Padding="16">
-      <StackPanel Spacing="8">
+            Background="#592E83"
+            Padding="20"
+            Width="220"
+            IsVisible="{Binding IsSidebarVisible}">
+      <StackPanel Spacing="4">
 
-        <TextBlock Text="PC Parts Store"
-                   FontSize="16"
-                   FontWeight="Bold"
+        <!-- Customer sidebar -->
+        <TextBlock Text="Customer account"
+                   HorizontalAlignment="Center"
                    Foreground="White"
-                   Margin="0,0,0,24"/>
+                   FontSize="13"
+                   FontWeight="SemiBold"
+                   Opacity="0.7"
+                   IsVisible="{Binding IsCustomer}"
+                   Margin="0,0,0,16"/>
 
         <Button Content="Catalog"
                 Command="{Binding NavigateToCatalogCommand}"
-                HorizontalAlignment="Stretch"/>
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsCustomer}"/>
 
         <Button Content="Cart"
                 Command="{Binding NavigateToCartCommand}"
-                HorizontalAlignment="Stretch"/>
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsCustomer}"/>
 
-        <Button Content="Order History"
-                Command="{Binding NavigateToOrderHistoryCommand}"
-                HorizontalAlignment="Stretch"/>
+        <Button Content="My orders"
+                Command="{Binding NavigateToMyOrdersCommand}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsCustomer}"/>
 
-        <Button Content="Admin"
-                Command="{Binding NavigateToAdminCommand}"
-                HorizontalAlignment="Stretch"/>
+        <!-- Admin sidebar -->
+        <TextBlock Text="Admin account"
+                   HorizontalAlignment="Center"
+                   Foreground="White"
+                   FontSize="13"
+                   FontWeight="SemiBold"
+                   Opacity="0.7"
+                   IsVisible="{Binding IsAdmin}"
+                   Margin="0,0,0,16"/>
+
+        <Button Content="Products"
+                Command="{Binding NavigateToProductsCommand}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsAdmin}"/>
+
+        <Button Content="All orders"
+                Command="{Binding NavigateToAllOrdersCommand}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsAdmin}"/>
+
+        <Button Content="Statistics"
+                Command="{Binding NavigateToStatisticsCommand}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Foreground="White"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Padding="8,10"
+                IsVisible="{Binding IsAdmin}"/>
 
       </StackPanel>
     </Border>
 
-    <!-- Right content area — shows current view -->
+    <!-- Right content area -->
     <ContentControl Grid.Column="1"
                     Content="{Binding CurrentView}"/>
 

@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             x:Class="PCPartsStore.Views.RoleSelectionView"
+             x:DataType="vm:RoleSelectionViewModel">
+
+  <Grid HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+    <StackPanel VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Width="320"
+                Spacing="32">
+
+      <TextBlock Text="PC Parts Store"
+                 FontSize="28"
+                 FontWeight="Bold"
+                 Foreground="#592E83"
+                 HorizontalAlignment="Center"/>
+
+      <TextBlock Text="Choose your type of user"
+                 FontSize="22"
+                 FontWeight="SemiBold"
+                 HorizontalAlignment="Center"/>
+
+      <Button Content="Customer"
+              Command="{Binding SelectCustomerCommand}"
+              Background="#9984D4"
+              Foreground="White"
+              FontSize="16"
+              FontWeight="SemiBold"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              VerticalContentAlignment="Center"
+              Height="52"
+              CornerRadius="8"/>
+
+      <Button Content="Admin"
+              Command="{Binding SelectAdminCommand}"
+              Background="#592E83"
+              Foreground="White"
+              FontSize="16"
+              FontWeight="SemiBold"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              VerticalContentAlignment="Center"
+              Height="52"
+              CornerRadius="8"/>
+
+    </StackPanel>
+  </Grid>
+
+</UserControl>

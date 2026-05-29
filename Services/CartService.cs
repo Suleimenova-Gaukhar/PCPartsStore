@@ -26,6 +26,13 @@ public class CartService
         _items.Remove(item);
     }
 
+    public void RemoveByComponent(Component component)
+    {
+        var item = _items.FirstOrDefault(i => i.Component.Id == component.Id);
+        if (item is not null)
+            _items.Remove(item);
+    }
+
     public void UpdateQuantity(CartItem item, int quantity)
     {
         if (quantity <= 0)

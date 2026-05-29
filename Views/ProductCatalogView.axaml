@@ -1,5 +1,145 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.ProductCatalogView">
-  <TextBlock Text="Product Catalog View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             x:Class="PCPartsStore.Views.ProductCatalogView"
+             x:DataType="vm:ProductCatalogViewModel">
+
+  <Grid RowDefinitions="Auto,*"
+        Margin="24,20">
+
+    <!-- Header row -->
+    <Grid Grid.Row="0"
+          ColumnDefinitions="Auto,*,Auto,Auto"
+          Margin="0,0,0,16">
+
+      <TextBlock Grid.Column="0"
+                 Text="Catalog"
+                 FontSize="24"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center"/>
+
+      <TextBox Grid.Column="1"
+               Text="{Binding SearchText}"
+               PlaceholderText="Search..."
+               Margin="24,0"
+               VerticalAlignment="Center"
+               CornerRadius="6"
+               Padding="10,8"/>
+
+      <ComboBox Grid.Column="2"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                Margin="0,0,12,0"
+                Width="140"
+                VerticalAlignment="Center"/>
+
+      <Button Grid.Column="3"
+              Content="Go to cart"
+              Command="{Binding GoToCartCommand}"
+              Background="#592E83"
+              Foreground="White"
+              CornerRadius="6"
+              Padding="16,8"
+              VerticalAlignment="Center"/>
+
+    </Grid>
+
+    <!-- Table -->
+    <Border Grid.Row="1"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8">
+      <Grid RowDefinitions="Auto,*">
+
+        <!-- Table header -->
+        <Border Grid.Row="0"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1"
+                Padding="16,10">
+          <Grid ColumnDefinitions="*,*,120,100,120,120,160">
+            <TextBlock Grid.Column="0" Text="Name of product" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="1" Text="Manufacturer" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="2" Text="Status" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="3" Text="Price" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="4" Text="Stock info" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="5" Text="Category" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="6" Text="" Foreground="#888" FontSize="12"/>
+          </Grid>
+        </Border>
+
+        <!-- Table rows -->
+        <ScrollViewer Grid.Row="1">
+          <ItemsControl ItemsSource="{Binding Components}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:ComponentRow">
+                <Border BorderBrush="#F0F0F0"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,12"
+                        Background="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToRowBackgroundConverter}}">
+                  <Grid ColumnDefinitions="*,*,120,100,120,120,160"
+                        VerticalAlignment="Center">
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Component.Name}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToForegroundConverter}}"/>
+
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Component.Manufacturer}"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToForegroundConverter}}"/>
+
+                    <Border Grid.Column="2"
+                            CornerRadius="12"
+                            Padding="10,4"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="{Binding Component.Status, Converter={x:Static vm:ProductCatalogViewModel.StatusToColorConverter}}">
+                      <TextBlock Text="{Binding Component.Status}"
+                                 Foreground="White"
+                                 FontSize="12"
+                                 FontWeight="SemiBold"/>
+                    </Border>
+
+                    <TextBlock Grid.Column="3"
+                               Text="{Binding Component.Price, StringFormat={}{0:C}}"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToForegroundConverter}}"/>
+
+                    <TextBlock Grid.Column="4"
+                               Text="{Binding Component.Stock, StringFormat={}{0} in stock}"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToForegroundConverter}}"/>
+
+                    <TextBlock Grid.Column="5"
+                               Text="{Binding Component.Category}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Component.Stock, Converter={x:Static vm:ProductCatalogViewModel.StockToForegroundConverter}}"/>
+
+                    <Button Grid.Column="6"
+                            Command="{Binding $parent[ItemsControl].((vm:ProductCatalogViewModel)DataContext).ToggleCartCommand}"
+                            CommandParameter="{Binding}"
+                            IsEnabled="{Binding ButtonEnabled}"
+                            Content="{Binding ButtonText}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            CornerRadius="6"
+                            Padding="12,6"
+                            Background="{Binding ButtonColor}"
+                            Foreground="White"/>
+
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+      </Grid>
+    </Border>
+
+  </Grid>
+
 </UserControl>

@@ -63,7 +63,7 @@ public partial class CheckoutViewModel : ViewModelBase
         {
             _cartService.Clear();
             StatusMessage = "Order placed successfully!";
-            _mainVm.NavigateToOrderHistory();
+            _mainVm.NavigateToMyOrders();
         }
         else
         {

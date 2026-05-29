@@ -13,13 +13,38 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase _currentView;
 
+    [ObservableProperty]
+    private bool _isAdmin;
+
+    [ObservableProperty]
+    private bool _isCustomer;
+
+    [ObservableProperty]
+    private bool _isSidebarVisible;
+
     public MainWindowViewModel()
     {
         _productService = new ProductService();
         _cartService = new CartService();
         _orderService = new OrderService(_productService);
+        _currentView = new RoleSelectionViewModel(this);
+        _isSidebarVisible = false;
+    }
 
-        _currentView = new ProductCatalogViewModel(_productService, _cartService, this);
+    public void SelectCustomer()
+    {
+        IsAdmin = false;
+        IsCustomer = true;
+        IsSidebarVisible = true;
+        NavigateToCatalog();
+    }
+
+    public void SelectAdmin()
+    {
+        IsAdmin = true;
+        IsCustomer = false;
+        IsSidebarVisible = true;
+        NavigateToProducts();
     }
 
     [RelayCommand]
@@ -35,19 +60,41 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void NavigateToOrderHistory()
+    public void NavigateToMyOrders()
     {
-        CurrentView = new OrderHistoryViewModel(_orderService);
+        CurrentView = new CustomerOrderHistoryViewModel(_orderService, this);
     }
 
     [RelayCommand]
-    public void NavigateToAdmin()
+    public void NavigateToProducts()
     {
-        CurrentView = new AdminViewModel(_productService);
+        CurrentView = new ProductsViewModel(_productService, this);
+    }
+
+    [RelayCommand]
+    public void NavigateToAllOrders()
+    {
+        CurrentView = new AllOrdersViewModel(_orderService);
+    }
+
+    [RelayCommand]
+    public void NavigateToStatistics()
+    {
+        CurrentView = new StatisticsViewModel(_orderService);
     }
 
     public void NavigateToCheckout()
     {
         CurrentView = new CheckoutViewModel(_cartService, _orderService, this);
+    }
+
+    public void NavigateToAddProduct()
+    {
+        CurrentView = new AddProductViewModel(_productService, this);
+    }
+
+    public void NavigateToEditProduct(Models.Component component)
+    {
+        CurrentView = new EditProductViewModel(_productService, component, this);
     }
 }

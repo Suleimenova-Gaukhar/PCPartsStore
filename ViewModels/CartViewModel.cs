@@ -16,9 +16,6 @@ public partial class CartViewModel : ViewModelBase
     private ObservableCollection<CartItem> _items;
 
     [ObservableProperty]
-    private CartItem? _selectedItem;
-
-    [ObservableProperty]
     private decimal _total;
 
     public CartViewModel(CartService cartService, MainWindowViewModel mainVm)
@@ -29,30 +26,35 @@ public partial class CartViewModel : ViewModelBase
         _total = _cartService.Total;
     }
 
-    [RelayCommand]
-    private void RemoveItem()
+    private void RefreshItems()
     {
-        if (SelectedItem is null) return;
-        _cartService.Remove(SelectedItem);
-        Items.Remove(SelectedItem);
-        Total = _cartService.Total;
-    }
-
-    [RelayCommand]
-    private void IncreaseQuantity()
-    {
-        if (SelectedItem is null) return;
-        _cartService.UpdateQuantity(SelectedItem, SelectedItem.Quantity + 1);
-        Total = _cartService.Total;
-    }
-
-    [RelayCommand]
-    private void DecreaseQuantity()
-    {
-        if (SelectedItem is null) return;
-        _cartService.UpdateQuantity(SelectedItem, SelectedItem.Quantity - 1);
         Items = new ObservableCollection<CartItem>(_cartService.Items);
         Total = _cartService.Total;
+    }
+
+    [RelayCommand]
+    private void RemoveItem(CartItem? item)
+    {
+        if (item is null) return;
+        _cartService.Remove(item);
+        RefreshItems();
+    }
+
+    [RelayCommand]
+    private void IncreaseQuantity(CartItem? item)
+    {
+        if (item is null) return;
+        if (item.Quantity >= item.Component.Stock) return;
+        _cartService.UpdateQuantity(item, item.Quantity + 1);
+        RefreshItems();
+    }
+
+    [RelayCommand]
+    private void DecreaseQuantity(CartItem? item)
+    {
+        if (item is null) return;
+        _cartService.UpdateQuantity(item, item.Quantity - 1);
+        RefreshItems();
     }
 
     [RelayCommand]

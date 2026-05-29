@@ -9,5 +9,11 @@ public class Component
     public Category Category { get; set; }
     public decimal Price { get; set; }
     public int Stock { get; set; }
-    public string Description { get; set; } = string.Empty;
+
+    public string Status => Stock switch
+    {
+        0 => "Sold out",
+        <= 4 => "Low stock",
+        _ => "Active"
+    };
 }

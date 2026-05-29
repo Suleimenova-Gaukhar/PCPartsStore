@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using PCPartsStore.Data;
 using PCPartsStore.Models;
 
 namespace PCPartsStore.Services;
 
 public class OrderService
 {
-    private readonly string _filePath = "Data/orders.json";
     private readonly ProductService _productService;
 
     public OrderService(ProductService productService)
@@ -18,34 +18,124 @@ public class OrderService
 
     public List<Order> GetAll()
     {
-        if (!File.Exists(_filePath))
-            return new List<Order>();
-
-        var json = File.ReadAllText(_filePath);
-        return JsonSerializer.Deserialize<List<Order>>(json) ?? new List<Order>();
+        using var context = new AppDbContext();
+        return context.Orders
+            .Include(o => o.Client)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .ToList();
     }
 
     public bool PlaceOrder(Order order)
     {
-        var components = _productService.GetAll();
+        using var context = new AppDbContext();
 
         foreach (var item in order.Items)
         {
-            var component = components.FirstOrDefault(c => c.Id == item.Component.Id);
+            var component = context.Components.Find(item.Component.Id);
             if (component is null || component.Stock < item.Quantity)
                 return false;
-
             component.Stock -= item.Quantity;
         }
 
-        _productService.SaveAll(components);
-
-        var orders = GetAll();
-        orders.Add(order);
-
-        var json = JsonSerializer.Serialize(orders, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(_filePath, json);
-
+        context.Orders.Add(order);
+        context.SaveChanges();
         return true;
+    }
+
+    public bool UpdateOrderStatus(Guid orderId, OrderStatus newStatus)
+    {
+        using var context = new AppDbContext();
+        var order = context.Orders.Find(orderId);
+        if (order is null || !order.CanChangeStatus)
+            return false;
+        order.Status = newStatus;
+        context.SaveChanges();
+        return true;
+    }
+
+    public bool CancelOrder(Guid orderId)
+    {
+        using var context = new AppDbContext();
+        var order = context.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .FirstOrDefault(o => o.Id == orderId);
+
+        if (order is null || !order.CanCustomerCancel)
+            return false;
+
+        foreach (var item in order.Items)
+        {
+            var component = context.Components.Find(item.Component.Id);
+            if (component is not null)
+                component.Stock += item.Quantity;
+        }
+
+        order.Status = OrderStatus.Cancelled;
+        context.SaveChanges();
+        return true;
+    }
+
+    public Dictionary<string, decimal> GetRevenueByCategory()
+    {
+        using var context = new AppDbContext();
+        return context.CartItems
+            .Include(i => i.Component)
+            .GroupBy(i => i.Component.Category.ToString())
+            .ToDictionary(
+                g => g.Key,
+                g => g.Sum(i => i.Component.Price * i.Quantity)
+            );
+    }
+
+    public decimal GetTotalSalesToday()
+    {
+        using var context = new AppDbContext();
+        return context.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .Where(o => o.PlacedAt.Date == DateTime.Today &&
+                        o.Status != OrderStatus.Cancelled)
+            .SelectMany(o => o.Items)
+            .Sum(i => i.Component.Price * i.Quantity);
+    }
+
+    public decimal GetTotalSalesThisWeek()
+    {
+        using var context = new AppDbContext();
+        var weekAgo = DateTime.Today.AddDays(-7);
+        return context.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .Where(o => o.PlacedAt >= weekAgo &&
+                        o.Status != OrderStatus.Cancelled)
+            .SelectMany(o => o.Items)
+            .Sum(i => i.Component.Price * i.Quantity);
+    }
+
+    public decimal GetTotalSalesThisMonth()
+    {
+        using var context = new AppDbContext();
+        return context.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .Where(o => o.PlacedAt.Month == DateTime.Today.Month &&
+                        o.PlacedAt.Year == DateTime.Today.Year &&
+                        o.Status != OrderStatus.Cancelled)
+            .SelectMany(o => o.Items)
+            .Sum(i => i.Component.Price * i.Quantity);
+    }
+
+    public decimal GetTotalSalesThisYear()
+    {
+        using var context = new AppDbContext();
+        return context.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Component)
+            .Where(o => o.PlacedAt.Year == DateTime.Today.Year &&
+                        o.Status != OrderStatus.Cancelled)
+            .SelectMany(o => o.Items)
+            .Sum(i => i.Component.Price * i.Quantity);
     }
 }

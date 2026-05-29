@@ -1,5 +1,164 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.CartView">
-  <TextBlock Text="Cart View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             xmlns:models="using:PCPartsStore.Models"
+             x:Class="PCPartsStore.Views.CartView"
+             x:DataType="vm:CartViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto"
+        Margin="24,20">
+
+    <!-- Header -->
+    <TextBlock Grid.Row="0"
+               Text="Cart"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,16"/>
+
+    <!-- Table -->
+    <Border Grid.Row="1"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8">
+      <Grid RowDefinitions="Auto,*">
+
+        <!-- Table header -->
+        <Border Grid.Row="0"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1"
+                Padding="16,10">
+          <Grid ColumnDefinitions="*,*,180,140,100,160">
+            <TextBlock Grid.Column="0" Text="Name of product" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="1" Text="Manufacturer" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="2" Text="Quantity" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="3" Text="Available stock" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="4" Text="Price" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="5" Text="" Foreground="#888" FontSize="12"/>
+          </Grid>
+        </Border>
+
+        <!-- Table rows -->
+        <ScrollViewer Grid.Row="1">
+          <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="models:CartItem">
+                <Border BorderBrush="#F0F0F0"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,12">
+                  <Grid ColumnDefinitions="*,*,180,140,100,160"
+                        VerticalAlignment="Center">
+
+                    <!-- Name -->
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Component.Name}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+
+                    <!-- Manufacturer -->
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Component.Manufacturer}"
+                               VerticalAlignment="Center"/>
+
+                    <!-- Quantity controls -->
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="12"
+                                VerticalAlignment="Center">
+                      <Button Content="—"
+                              Command="{Binding $parent[ItemsControl].((vm:CartViewModel)DataContext).DecreaseQuantityCommand}"
+                              CommandParameter="{Binding}"
+                              Background="#F0F0F0"
+                              Foreground="#333"
+                              Width="32"
+                              Height="32"
+                              CornerRadius="4"
+                              Padding="0"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"/>
+                      <TextBlock Text="{Binding Quantity}"
+                                 VerticalAlignment="Center"
+                                 FontWeight="SemiBold"
+                                 FontSize="14"/>
+                      <Button Content="+"
+                              Command="{Binding $parent[ItemsControl].((vm:CartViewModel)DataContext).IncreaseQuantityCommand}"
+                              CommandParameter="{Binding}"
+                              Background="#F0F0F0"
+                              Foreground="#333"
+                              Width="32"
+                              Height="32"
+                              CornerRadius="4"
+                              Padding="0"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Available stock -->
+                    <TextBlock Grid.Column="3"
+                               Text="{Binding Component.Stock, StringFormat={}{0} in stock}"
+                               VerticalAlignment="Center"
+                               Foreground="#888"/>
+
+                    <!-- Price -->
+                    <TextBlock Grid.Column="4"
+                               Text="{Binding Subtotal, StringFormat={}{0:C}}"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"/>
+
+                    <!-- Remove button -->
+                    <Button Grid.Column="5"
+                            Content="Remove item"
+                            Command="{Binding $parent[ItemsControl].((vm:CartViewModel)DataContext).RemoveItemCommand}"
+                            CommandParameter="{Binding}"
+                            Background="#db504a"
+                            Foreground="White"
+                            CornerRadius="6"
+                            Padding="12,6"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"/>
+
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+      </Grid>
+    </Border>
+
+    <!-- Footer -->
+    <Grid Grid.Row="2"
+          ColumnDefinitions="*,Auto"
+          Margin="0,16,0,0">
+
+      <StackPanel Grid.Column="0"
+                  Orientation="Horizontal"
+                  Spacing="12"
+                  VerticalAlignment="Center">
+        <Button Content="Checkout"
+                Command="{Binding ProceedToCheckoutCommand}"
+                Background="#6baa75"
+                Foreground="White"
+                CornerRadius="6"
+                Padding="20,10"
+                FontWeight="SemiBold"/>
+        <Button Content="Continue shopping"
+                Command="{Binding ContinueShoppingCommand}"
+                Background="#9984D4"
+                Foreground="White"
+                CornerRadius="6"
+                Padding="20,10"
+                FontWeight="SemiBold"/>
+      </StackPanel>
+
+      <TextBlock Grid.Column="1"
+                 Text="{Binding Total, StringFormat={}Total price: {0:C}}"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center"/>
+
+    </Grid>
+
+  </Grid>
+
 </UserControl>
