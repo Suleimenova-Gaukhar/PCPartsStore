@@ -65,6 +65,11 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentView = new CustomerOrderHistoryViewModel(_orderService, this);
     }
 
+    public void NavigateToMyOrdersWithSuccess()
+    {
+        CurrentView = new CustomerOrderHistoryViewModel(_orderService, this, showSuccess: true);
+    }
+
     [RelayCommand]
     public void NavigateToProducts()
     {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -27,12 +28,15 @@ public partial class CheckoutViewModel : ViewModelBase
     [ObservableProperty]
     private decimal _total;
 
+    public List<CartItem> CartItems { get; }
+
     public CheckoutViewModel(CartService cartService, OrderService orderService, MainWindowViewModel mainVm)
     {
         _cartService = cartService;
         _orderService = orderService;
         _mainVm = mainVm;
         _total = _cartService.Total;
+        CartItems = _cartService.Items.ToList();
     }
 
     [RelayCommand]
@@ -62,8 +66,8 @@ public partial class CheckoutViewModel : ViewModelBase
         if (success)
         {
             _cartService.Clear();
-            StatusMessage = "Order placed successfully!";
-            _mainVm.NavigateToMyOrders();
+            StatusMessage = string.Empty;
+            _mainVm.NavigateToMyOrdersWithSuccess();
         }
         else
         {

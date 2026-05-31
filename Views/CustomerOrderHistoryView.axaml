@@ -1,5 +1,166 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.CustomerOrderHistoryView">
-  <TextBlock Text="My Orders View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             xmlns:models="using:PCPartsStore.Models"
+             x:Class="PCPartsStore.Views.CustomerOrderHistoryView"
+             x:DataType="vm:CustomerOrderHistoryViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+        Margin="24,20">
+
+    <!-- Header -->
+    <TextBlock Grid.Row="0"
+               Text="My orders"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,16"/>
+
+    <!-- Orders table -->
+    <Border Grid.Row="1"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8"
+            Margin="0,0,0,24">
+      <Grid RowDefinitions="Auto,Auto">
+
+        <!-- Table header -->
+        <Border Grid.Row="0"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1"
+                Padding="16,10">
+          <Grid ColumnDefinitions="*,120,160,180,160">
+            <TextBlock Grid.Column="0" Text="Order ID" FontWeight="SemiBold" FontSize="13"/>
+            <TextBlock Grid.Column="1" Text="Total price" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="2" Text="Date of order" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="3" Text="Status" Foreground="#888" FontSize="12"/>
+            <TextBlock Grid.Column="4" Text="" Foreground="#888" FontSize="12"/>
+          </Grid>
+        </Border>
+
+        <!-- Order rows -->
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Orders}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:Order">
+              <Border BorderBrush="#F0F0F0"
+                      BorderThickness="0,0,0,1"
+                      Padding="16,12"
+                      PointerPressed="OnOrderRowPressed">
+                <Grid ColumnDefinitions="*,120,160,180,160"
+                      VerticalAlignment="Center">
+
+                  <TextBlock Grid.Column="0"
+                             Text="{Binding Id}"
+                             FontSize="12"
+                             Foreground="#555"
+                             VerticalAlignment="Center"/>
+
+                  <TextBlock Grid.Column="1"
+                             Text="{Binding Total, StringFormat={}{0:C}}"
+                             FontWeight="SemiBold"
+                             VerticalAlignment="Center"/>
+
+                  <TextBlock Grid.Column="2"
+                             Text="{Binding PlacedAt, StringFormat={}{0:dd.MM.yyyy}}"
+                             VerticalAlignment="Center"/>
+
+                  <TextBlock Grid.Column="3"
+                             Text="{Binding Status}"
+                             VerticalAlignment="Center"/>
+
+                  <Button Grid.Column="4"
+                          Content="Cancel order"
+                          Command="{Binding $parent[ItemsControl].((vm:CustomerOrderHistoryViewModel)DataContext).CancelOrderCommand}"
+                          CommandParameter="{Binding}"
+                          IsVisible="{Binding CanCustomerCancel}"
+                          Background="#F9564F"
+                          Foreground="White"
+                          CornerRadius="6"
+                          Padding="12,6"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"/>
+
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+      </Grid>
+    </Border>
+
+    <!-- Order details section -->
+    <StackPanel Grid.Row="2"
+                IsVisible="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}"
+                Margin="0,0,0,16">
+
+      <TextBlock Text="Order details:"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 Margin="0,0,0,4"/>
+
+      <TextBlock Text="{Binding SelectedOrder.Id}"
+                 FontSize="14"
+                 Foreground="#555"
+                 Margin="0,0,0,16"/>
+
+      <Border BorderBrush="#E0E0E0"
+              BorderThickness="1"
+              CornerRadius="8">
+        <Grid RowDefinitions="Auto,Auto">
+          <Border Grid.Row="0"
+                  BorderBrush="#E0E0E0"
+                  BorderThickness="0,0,0,1"
+                  Padding="16,10">
+            <Grid ColumnDefinitions="*,*,100,160">
+              <TextBlock Grid.Column="0" Text="Name of product" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="1" Text="Manufacturer" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="2" Text="Quantity" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="3" Text="Total price for item" Foreground="#888" FontSize="12"/>
+            </Grid>
+          </Border>
+
+          <ItemsControl Grid.Row="1"
+                        ItemsSource="{Binding SelectedOrder.Items}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="models:CartItem">
+                <Border BorderBrush="#F0F0F0"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,12">
+                  <Grid ColumnDefinitions="*,*,100,160">
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Component.Name}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Component.Manufacturer}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding Quantity}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="3"
+                               Text="{Binding Subtotal, StringFormat={}{0:C}}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </Border>
+
+    </StackPanel>
+
+    <!-- Status message -->
+    <TextBlock Grid.Row="3"
+               Text="{Binding StatusMessage}"
+               FontSize="13"
+               FontWeight="SemiBold"
+               Margin="0,8,0,0"
+               IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+               Foreground="{Binding IsSuccess, Converter={x:Static vm:CustomerOrderHistoryViewModel.SuccessColorConverter}}"/>
+
+  </Grid>
+
 </UserControl>

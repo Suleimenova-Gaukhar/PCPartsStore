@@ -1,5 +1,162 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.CheckoutView">
-  <TextBlock Text="Checkout View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             xmlns:models="using:PCPartsStore.Models"
+             x:Class="PCPartsStore.Views.CheckoutView"
+             x:DataType="vm:CheckoutViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto"
+        Margin="24,20">
+
+    <!-- Header -->
+    <TextBlock Grid.Row="0"
+               Text="Checkout"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,16"/>
+
+    <!-- Main content - two panels -->
+    <Grid Grid.Row="1"
+          ColumnDefinitions="360,*"
+          Margin="0,0,0,16">
+
+      <!-- Left panel - Personal data form -->
+      <Border Grid.Column="0"
+              BorderBrush="#E0E0E0"
+              BorderThickness="1"
+              CornerRadius="8"
+              Padding="24"
+              Margin="0,0,16,0">
+        <StackPanel Spacing="16">
+
+          <TextBlock Text="Personal data"
+                     FontSize="16"
+                     FontWeight="SemiBold"
+                     Margin="0,0,0,8"/>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="Full Name"
+                       Foreground="#888"
+                       FontSize="13"/>
+            <TextBox Text="{Binding CustomerName}"
+                     CornerRadius="6"
+                     Padding="10,8"/>
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="Email address"
+                       Foreground="#888"
+                       FontSize="13"/>
+            <TextBox Text="{Binding CustomerEmail}"
+                     CornerRadius="6"
+                     Padding="10,8"/>
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="Phone number"
+                       Foreground="#888"
+                       FontSize="13"/>
+            <TextBox Text="{Binding CustomerPhone}"
+                     CornerRadius="6"
+                     Padding="10,8"/>
+          </StackPanel>
+
+          <!-- Error message -->
+          <TextBlock Text="{Binding StatusMessage}"
+                     Foreground="#F9564F"
+                     FontSize="13"
+                     IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                     TextWrapping="Wrap"/>
+
+        </StackPanel>
+      </Border>
+
+      <!-- Right panel - Order summary -->
+      <Border Grid.Column="1"
+              BorderBrush="#E0E0E0"
+              BorderThickness="1"
+              CornerRadius="8">
+        <Grid RowDefinitions="Auto,*">
+
+          <!-- Summary header -->
+          <Border Grid.Row="0"
+                  BorderBrush="#E0E0E0"
+                  BorderThickness="0,0,0,1"
+                  Padding="16,10">
+            <Grid ColumnDefinitions="*,*,100,140">
+              <TextBlock Grid.Column="0" Text="Name of product" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="1" Text="Manufacturer" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="2" Text="Quantity" Foreground="#888" FontSize="12"/>
+              <TextBlock Grid.Column="3" Text="Total price for item" Foreground="#888" FontSize="12"/>
+            </Grid>
+          </Border>
+
+          <!-- Summary rows -->
+          <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding CartItems}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:CartItem">
+                  <Border BorderBrush="#F0F0F0"
+                          BorderThickness="0,0,0,1"
+                          Padding="16,12">
+                    <Grid ColumnDefinitions="*,*,100,140">
+                      <TextBlock Grid.Column="0"
+                                 Text="{Binding Component.Name}"
+                                 FontWeight="SemiBold"
+                                 VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="1"
+                                 Text="{Binding Component.Manufacturer}"
+                                 VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="2"
+                                 Text="{Binding Quantity}"
+                                 VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="3"
+                                 Text="{Binding Subtotal, StringFormat={}{0:C}}"
+                                 FontWeight="SemiBold"
+                                 VerticalAlignment="Center"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+
+        </Grid>
+      </Border>
+
+    </Grid>
+
+    <!-- Footer -->
+    <Grid Grid.Row="2"
+          ColumnDefinitions="*,Auto">
+
+      <StackPanel Grid.Column="0"
+                  Orientation="Horizontal"
+                  Spacing="12">
+        <Button Content="Order"
+                Command="{Binding PlaceOrderCommand}"
+                Background="#6BAA75"
+                Foreground="White"
+                CornerRadius="6"
+                Padding="20,10"
+                FontWeight="SemiBold"/>
+        <Button Content="Go back to cart"
+                Command="{Binding GoBackCommand}"
+                Background="#9984D4"
+                Foreground="White"
+                CornerRadius="6"
+                Padding="20,10"
+                FontWeight="SemiBold"/>
+      </StackPanel>
+
+      <TextBlock Grid.Column="1"
+                 Text="{Binding Total, StringFormat={}Total price: {0:C}}"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center"/>
+
+    </Grid>
+
+  </Grid>
+
 </UserControl>

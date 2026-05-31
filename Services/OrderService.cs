@@ -20,6 +20,7 @@ public class OrderService
     {
         using var context = new AppDbContext();
         return context.Orders
+            .AsNoTracking()
             .Include(o => o.Client)
             .Include(o => o.Items)
             .ThenInclude(i => i.Component)
@@ -32,13 +33,35 @@ public class OrderService
 
         foreach (var item in order.Items)
         {
-            var component = context.Components.Find(item.Component.Id);
+            var component = context.Components
+                .FirstOrDefault(c => c.Id == item.Component.Id);
+
             if (component is null || component.Stock < item.Quantity)
                 return false;
+
             component.Stock -= item.Quantity;
         }
 
-        context.Orders.Add(order);
+        var newOrder = new Order
+        {
+            Id = order.Id,
+            PlacedAt = order.PlacedAt,
+            Status = order.Status,
+            Client = new Client
+            {
+                Name = order.Client.Name,
+                Email = order.Client.Email,
+                Phone = order.Client.Phone
+            },
+            Items = order.Items.Select(i => new CartItem
+            {
+                Quantity = i.Quantity,
+                Component = context.Components
+                    .First(c => c.Id == i.Component.Id)
+            }).ToList()
+        };
+
+        context.Orders.Add(newOrder);
         context.SaveChanges();
         return true;
     }
@@ -81,6 +104,7 @@ public class OrderService
     {
         using var context = new AppDbContext();
         return context.CartItems
+            .AsNoTracking()
             .Include(i => i.Component)
             .GroupBy(i => i.Component.Category.ToString())
             .ToDictionary(
@@ -93,6 +117,7 @@ public class OrderService
     {
         using var context = new AppDbContext();
         return context.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .ThenInclude(i => i.Component)
             .Where(o => o.PlacedAt.Date == DateTime.Today &&
@@ -106,6 +131,7 @@ public class OrderService
         using var context = new AppDbContext();
         var weekAgo = DateTime.Today.AddDays(-7);
         return context.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .ThenInclude(i => i.Component)
             .Where(o => o.PlacedAt >= weekAgo &&
@@ -118,6 +144,7 @@ public class OrderService
     {
         using var context = new AppDbContext();
         return context.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .ThenInclude(i => i.Component)
             .Where(o => o.PlacedAt.Month == DateTime.Today.Month &&
@@ -131,6 +158,7 @@ public class OrderService
     {
         using var context = new AppDbContext();
         return context.Orders
+            .AsNoTracking()
             .Include(o => o.Items)
             .ThenInclude(i => i.Component)
             .Where(o => o.PlacedAt.Year == DateTime.Today.Year &&
