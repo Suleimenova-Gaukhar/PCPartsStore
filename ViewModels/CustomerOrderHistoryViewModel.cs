@@ -66,4 +66,4 @@ public partial class CustomerOrderHistoryViewModel : ViewModelBase
             StatusMessage = "This order cannot be cancelled.";
         }
     }
-}
+}   
