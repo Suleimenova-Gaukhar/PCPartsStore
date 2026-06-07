@@ -1,5 +1,127 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.AddProductView">
-  <TextBlock Text="Add Product View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             x:Class="PCPartsStore.Views.AddProductView"
+             x:DataType="vm:AddProductViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto"
+        Margin="24,20">
+
+    <!-- Header -->
+    <TextBlock Grid.Row="0"
+               Text="Add product"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,24"/>
+
+    <!-- Form -->
+    <Grid Grid.Row="1"
+          ColumnDefinitions="*,*"
+          RowDefinitions="Auto,Auto,Auto"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Top">
+
+      <!-- Product name -->
+      <StackPanel Grid.Column="0" Grid.Row="0"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Product name"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Name}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Stock size -->
+      <StackPanel Grid.Column="1" Grid.Row="0"
+                  Spacing="6"
+                  Margin="0,0,0,20">
+        <TextBlock Text="Stock size"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Stock}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Manufacturer -->
+      <StackPanel Grid.Column="0" Grid.Row="1"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Manufacturer"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Manufacturer}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Category -->
+      <StackPanel Grid.Column="1" Grid.Row="1"
+                  Spacing="6"
+                  Margin="0,0,0,20">
+        <TextBlock Text="Category"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <ComboBox ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory}"
+                  HorizontalAlignment="Stretch"
+                  CornerRadius="6"
+                  Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Price per piece -->
+      <StackPanel Grid.Column="0" Grid.Row="2"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Price per piece"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Price}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Status message -->
+      <TextBlock Grid.Column="1" Grid.Row="2"
+                 Text="{Binding StatusMessage}"
+                 Foreground="#F9564F"
+                 FontSize="13"
+                 VerticalAlignment="Center"
+                 IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                 TextWrapping="Wrap"/>
+
+    </Grid>
+
+    <!-- Buttons -->
+    <Grid Grid.Row="2"
+          ColumnDefinitions="*,*"
+          Margin="0,16,0,0">
+
+      <Button Grid.Column="0"
+              Content="Save product"
+              Command="{Binding SaveProductCommand}"
+              Background="#9984D4"
+              Foreground="White"
+              CornerRadius="24"
+              Padding="20,12"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              Margin="0,0,12,0"/>
+
+      <Button Grid.Column="1"
+              Content="Go back"
+              Command="{Binding GoBackCommand}"
+              Background="#592E83"
+              Foreground="White"
+              CornerRadius="24"
+              Padding="20,12"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+
+    </Grid>
+
+  </Grid>
+
 </UserControl>

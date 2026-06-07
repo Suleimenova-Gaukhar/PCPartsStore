@@ -1,8 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PCPartsStore.Services;
 
 namespace PCPartsStore.ViewModels;
+
+public class CategoryRevenue
+{
+    public string Category { get; set; } = string.Empty;
+    public decimal Revenue { get; set; }
+}
 
 public partial class StatisticsViewModel : ViewModelBase
 {
@@ -19,7 +26,7 @@ public partial class StatisticsViewModel : ViewModelBase
     private decimal _totalSalesThisYear;
 
     [ObservableProperty]
-    private Dictionary<string, decimal> _revenueByCategory = new();
+    private List<CategoryRevenue> _revenueByCategoryList = new();
 
     public StatisticsViewModel(OrderService orderService)
     {
@@ -27,6 +34,11 @@ public partial class StatisticsViewModel : ViewModelBase
         TotalSalesThisWeek = orderService.GetTotalSalesThisWeek();
         TotalSalesThisMonth = orderService.GetTotalSalesThisMonth();
         TotalSalesThisYear = orderService.GetTotalSalesThisYear();
-        RevenueByCategory = orderService.GetRevenueByCategory();
+
+        var revenueByCategory = orderService.GetRevenueByCategory();
+        RevenueByCategoryList = revenueByCategory
+            .Select(kvp => new CategoryRevenue { Category = kvp.Key, Revenue = kvp.Value })
+            .OrderByDescending(x => x.Revenue)
+            .ToList();
     }
 }

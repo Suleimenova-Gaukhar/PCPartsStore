@@ -102,4 +102,13 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         CurrentView = new EditProductViewModel(_productService, component, this);
     }
+
+    [RelayCommand]
+    public void SwitchAccount()
+    {
+        IsAdmin = false;
+        IsCustomer = false;
+        IsSidebarVisible = false;
+        CurrentView = new RoleSelectionViewModel(this);
+    }
 }

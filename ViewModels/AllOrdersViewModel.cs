@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PCPartsStore.Models;
@@ -22,7 +23,13 @@ public partial class AllOrdersViewModel : ViewModelBase
     [ObservableProperty]
     private string _statusMessage = string.Empty;
 
-    public List<OrderStatus> Statuses { get; } = Enum.GetValues<OrderStatus>().ToList();
+    public List<OrderStatus> Statuses { get; } = new List<OrderStatus>
+    {
+        OrderStatus.Confirmed,
+        OrderStatus.OnTheWay,
+        OrderStatus.Delivered,
+        OrderStatus.Cancelled
+    };
 
     public AllOrdersViewModel(OrderService orderService)
     {

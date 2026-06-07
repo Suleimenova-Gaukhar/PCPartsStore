@@ -1,5 +1,81 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.StatisticsView">
-  <TextBlock Text="Statistics View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             x:Class="PCPartsStore.Views.StatisticsView"
+             x:DataType="vm:StatisticsViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,Auto"
+        Margin="24,20">
+
+    <TextBlock Grid.Row="0"
+               Text="Statistics of my sales"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,20"/>
+
+    <!-- Revenue by category table -->
+    <Border Grid.Row="1"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="16"
+            Margin="0,0,0,20">
+      <StackPanel Spacing="12">
+        <TextBlock Text="Revenue breakdown by category"
+                   FontSize="15"
+                   FontWeight="SemiBold"/>
+        <ItemsControl ItemsSource="{Binding RevenueByCategoryList}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:CategoryRevenue">
+              <Grid ColumnDefinitions="*,Auto"
+                    Margin="0,4">
+                <TextBlock Grid.Column="0"
+                           Text="{Binding Category}"
+                           FontSize="13"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Revenue, StringFormat={}{0:C}}"
+                           FontWeight="SemiBold"
+                           FontSize="13"/>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Border>
+
+    <!-- Sales summary -->
+    <Border Grid.Row="2"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="24"
+            Width="380"
+            HorizontalAlignment="Left">
+      <StackPanel Spacing="12">
+
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Grid.Column="0" Text="Total sales today:" FontWeight="SemiBold" FontSize="13"/>
+          <TextBlock Grid.Column="1" Text="{Binding TotalSalesToday, StringFormat={}{0:C}}" FontWeight="Bold" FontSize="13"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Grid.Column="0" Text="Total sales this week:" FontWeight="SemiBold" FontSize="13"/>
+          <TextBlock Grid.Column="1" Text="{Binding TotalSalesThisWeek, StringFormat={}{0:C}}" FontWeight="Bold" FontSize="13"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Grid.Column="0" Text="Total sales this month:" FontWeight="SemiBold" FontSize="13"/>
+          <TextBlock Grid.Column="1" Text="{Binding TotalSalesThisMonth, StringFormat={}{0:C}}" FontWeight="Bold" FontSize="13"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Grid.Column="0" Text="Total sales this year:" FontWeight="SemiBold" FontSize="13"/>
+          <TextBlock Grid.Column="1" Text="{Binding TotalSalesThisYear, StringFormat={}{0:C}}" FontWeight="Bold" FontSize="13"/>
+        </Grid>
+
+      </StackPanel>
+    </Border>
+
+  </Grid>
+
 </UserControl>

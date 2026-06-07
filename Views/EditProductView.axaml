@@ -1,5 +1,170 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PCPartsStore.Views.EditProductView">
-  <TextBlock Text="Edit Product View" />
+             xmlns:vm="using:PCPartsStore.ViewModels"
+             x:Class="PCPartsStore.Views.EditProductView"
+             x:DataType="vm:EditProductViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto"
+        Margin="24,20">
+
+    <!-- Header -->
+    <TextBlock Grid.Row="0"
+               Text="Edit product"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="0,0,0,24"/>
+
+    <!-- Form -->
+    <Grid Grid.Row="1"
+          ColumnDefinitions="*,*"
+          RowDefinitions="Auto,Auto,Auto"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Top">
+
+      <!-- Product name -->
+      <StackPanel Grid.Column="0" Grid.Row="0"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Product name"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Name}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Stock size -->
+      <StackPanel Grid.Column="1" Grid.Row="0"
+                  Spacing="6"
+                  Margin="0,0,0,20">
+        <TextBlock Text="Stock size"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Stock}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Manufacturer -->
+      <StackPanel Grid.Column="0" Grid.Row="1"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Manufacturer"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Manufacturer}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Category -->
+      <StackPanel Grid.Column="1" Grid.Row="1"
+                  Spacing="6"
+                  Margin="0,0,0,20">
+        <TextBlock Text="Category"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <ComboBox ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory}"
+                  HorizontalAlignment="Stretch"
+                  CornerRadius="6"
+                  Padding="10,8"/>
+      </StackPanel>
+
+      <!-- Price per piece -->
+      <StackPanel Grid.Column="0" Grid.Row="2"
+                  Spacing="6"
+                  Margin="0,0,24,20">
+        <TextBlock Text="Price per piece"
+                   Foreground="#888"
+                   FontSize="13"/>
+        <TextBox Text="{Binding Price}"
+                 CornerRadius="6"
+                 Padding="10,8"/>
+      </StackPanel>
+
+    </Grid>
+
+    <StackPanel Grid.Row="2"
+            Margin="0,16,0,0">
+
+  <!-- Normal state buttons -->
+  <Grid ColumnDefinitions="*,*,*"
+        IsVisible="{Binding !ShowDeleteConfirmation}">
+
+    <Button Grid.Column="0"
+            Content="Save product"
+            Command="{Binding SaveProductCommand}"
+            Background="#9984D4"
+            Foreground="White"
+            CornerRadius="24"
+            Padding="20,12"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Margin="0,0,12,0"/>
+
+    <Button Grid.Column="1"
+            Content="Go back"
+            Command="{Binding GoBackCommand}"
+            Background="#592E83"
+            Foreground="White"
+            CornerRadius="24"
+            Padding="20,12"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Margin="0,0,12,0"/>
+
+    <Button Grid.Column="2"
+            Content="Delete product"
+            Command="{Binding RequestDeleteCommand}"
+            Background="#F9564F"
+            Foreground="White"
+            CornerRadius="24"
+            Padding="20,12"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"/>
+
+  </Grid>
+
+  <!-- Confirmation state -->
+  <StackPanel IsVisible="{Binding ShowDeleteConfirmation}"
+              Spacing="12">
+
+    <TextBlock Text="Are you sure you want to delete this product?"
+               Foreground="#F9564F"
+               FontSize="16"
+               FontWeight="SemiBold"
+               HorizontalAlignment="Center"/>
+
+    <Grid ColumnDefinitions="*,*">
+
+      <Button Grid.Column="0"
+              Content="Yes, delete"
+              Command="{Binding ConfirmDeleteCommand}"
+              Background="#F9564F"
+              Foreground="White"
+              CornerRadius="24"
+              Padding="20,12"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              Margin="0,0,12,0"/>
+
+      <Button Grid.Column="1"
+              Content="Cancel"
+              Command="{Binding CancelDeleteCommand}"
+              Background="#888"
+              Foreground="White"
+              CornerRadius="24"
+              Padding="20,12"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+
+    </Grid>
+
+  </StackPanel>
+
+</StackPanel>
+
+  </Grid>
+
 </UserControl>

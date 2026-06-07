@@ -32,6 +32,9 @@ public partial class EditProductViewModel : ViewModelBase
     [ObservableProperty]
     private string _statusMessage = string.Empty;
 
+    [ObservableProperty]
+    private bool _showDeleteConfirmation;
+
     public List<Category> Categories { get; } = Enum.GetValues<Category>().ToList();
 
     public EditProductViewModel(ProductService productService, Component component, MainWindowViewModel mainVm)
@@ -69,10 +72,24 @@ public partial class EditProductViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void DeleteProduct()
+    private void RequestDelete()
+    {
+        ShowDeleteConfirmation = true;
+        StatusMessage = "Are you sure you want to delete this product?";
+    }
+
+    [RelayCommand]
+    private void ConfirmDelete()
     {
         _productService.Delete(_originalComponent.Id);
         _mainVm.NavigateToProducts();
+    }
+
+    [RelayCommand]
+    private void CancelDelete()
+    {
+        ShowDeleteConfirmation = false;
+        StatusMessage = string.Empty;
     }
 
     [RelayCommand]

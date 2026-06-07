@@ -21,6 +21,6 @@ public class Order
     public OrderStatus Status { get; set; } = OrderStatus.Confirmed;
 
     public decimal Total => Items.Sum(i => i.Subtotal);
-    public bool CanChangeStatus => Status != OrderStatus.Delivered;
+    public bool CanChangeStatus => Status != OrderStatus.Delivered && Status != OrderStatus.Cancelled;
     public bool CanCustomerCancel => Status == OrderStatus.Confirmed;
 }

@@ -14,95 +14,114 @@
             Padding="20"
             Width="220"
             IsVisible="{Binding IsSidebarVisible}">
-      <StackPanel Spacing="4">
 
-        <!-- Customer sidebar -->
-        <TextBlock Text="Customer account"
-                   HorizontalAlignment="Center"
-                   Foreground="White"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Opacity="0.7"
-                   IsVisible="{Binding IsCustomer}"
-                   Margin="0,0,0,16"/>
+      <DockPanel>
 
-        <Button Content="Catalog"
-                Command="{Binding NavigateToCatalogCommand}"
+        <!-- Switch account button at the bottom -->
+        <Button DockPanel.Dock="Bottom"
+                Content="← Switch account"
+                Command="{Binding SwitchAccountCommand}"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Left"
                 Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
+                Foreground="#FFFFFF"
+                FontSize="13"
                 Padding="8,10"
-                IsVisible="{Binding IsCustomer}"/>
+                Margin="0,16,0,0"/>
 
-        <Button Content="Cart"
-                Command="{Binding NavigateToCartCommand}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
-                Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Padding="8,10"
-                IsVisible="{Binding IsCustomer}"/>
+        <!-- Navigation buttons at the top -->
+        <StackPanel Spacing="4">
 
-        <Button Content="My orders"
-                Command="{Binding NavigateToMyOrdersCommand}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
-                Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Padding="8,10"
-                IsVisible="{Binding IsCustomer}"/>
+          <!-- Customer sidebar -->
+          <TextBlock Text="Customer account"
+                     HorizontalAlignment="Center"
+                     Foreground="White"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     Opacity="0.7"
+                     IsVisible="{Binding IsCustomer}"
+                     Margin="0,0,0,16"/>
 
-        <!-- Admin sidebar -->
-        <TextBlock Text="Admin account"
-                   HorizontalAlignment="Center"
-                   Foreground="White"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Opacity="0.7"
-                   IsVisible="{Binding IsAdmin}"
-                   Margin="0,0,0,16"/>
+          <Button Content="Catalog"
+                  Command="{Binding NavigateToCatalogCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsCustomer}"/>
 
-        <Button Content="Products"
-                Command="{Binding NavigateToProductsCommand}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
-                Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Padding="8,10"
-                IsVisible="{Binding IsAdmin}"/>
+          <Button Content="Cart"
+                  Command="{Binding NavigateToCartCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsCustomer}"/>
 
-        <Button Content="All orders"
-                Command="{Binding NavigateToAllOrdersCommand}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
-                Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Padding="8,10"
-                IsVisible="{Binding IsAdmin}"/>
+          <Button Content="My orders"
+                  Command="{Binding NavigateToMyOrdersCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsCustomer}"/>
 
-        <Button Content="Statistics"
-                Command="{Binding NavigateToStatisticsCommand}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
-                Background="Transparent"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="SemiBold"
-                Padding="8,10"
-                IsVisible="{Binding IsAdmin}"/>
+          <!-- Admin sidebar -->
+          <TextBlock Text="Admin account"
+                     HorizontalAlignment="Center"
+                     Foreground="White"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     Opacity="0.7"
+                     IsVisible="{Binding IsAdmin}"
+                     Margin="0,0,0,16"/>
 
-      </StackPanel>
+          <Button Content="Products"
+                  Command="{Binding NavigateToProductsCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsAdmin}"/>
+
+          <Button Content="All orders"
+                  Command="{Binding NavigateToAllOrdersCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsAdmin}"/>
+
+          <Button Content="Statistics"
+                  Command="{Binding NavigateToStatisticsCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Background="Transparent"
+                  Foreground="White"
+                  FontSize="14"
+                  FontWeight="SemiBold"
+                  Padding="8,10"
+                  IsVisible="{Binding IsAdmin}"/>
+
+        </StackPanel>
+
+      </DockPanel>
+
     </Border>
 
     <!-- Right content area -->
@@ -110,4 +129,5 @@
                     Content="{Binding CurrentView}"/>
 
   </Grid>
+
 </Window>
