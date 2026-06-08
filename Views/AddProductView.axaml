@@ -7,21 +7,18 @@
   <Grid RowDefinitions="Auto,*,Auto"
         Margin="24,20">
 
-    <!-- Header -->
     <TextBlock Grid.Row="0"
                Text="Add product"
                FontSize="24"
                FontWeight="Bold"
                Margin="0,0,0,24"/>
 
-    <!-- Form -->
     <Grid Grid.Row="1"
           ColumnDefinitions="*,*"
           RowDefinitions="Auto,Auto,Auto"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Top">
 
-      <!-- Product name -->
       <StackPanel Grid.Column="0" Grid.Row="0"
                   Spacing="6"
                   Margin="0,0,24,20">
@@ -33,7 +30,6 @@
                  Padding="10,8"/>
       </StackPanel>
 
-      <!-- Stock size -->
       <StackPanel Grid.Column="1" Grid.Row="0"
                   Spacing="6"
                   Margin="0,0,0,20">
@@ -45,7 +41,6 @@
                  Padding="10,8"/>
       </StackPanel>
 
-      <!-- Manufacturer -->
       <StackPanel Grid.Column="0" Grid.Row="1"
                   Spacing="6"
                   Margin="0,0,24,20">
@@ -57,7 +52,6 @@
                  Padding="10,8"/>
       </StackPanel>
 
-      <!-- Category -->
       <StackPanel Grid.Column="1" Grid.Row="1"
                   Spacing="6"
                   Margin="0,0,0,20">
@@ -71,7 +65,6 @@
                   Padding="10,8"/>
       </StackPanel>
 
-      <!-- Price per piece -->
       <StackPanel Grid.Column="0" Grid.Row="2"
                   Spacing="6"
                   Margin="0,0,24,20">
@@ -83,7 +76,6 @@
                  Padding="10,8"/>
       </StackPanel>
 
-      <!-- Status message -->
       <TextBlock Grid.Column="1" Grid.Row="2"
                  Text="{Binding StatusMessage}"
                  Foreground="#F9564F"
@@ -94,7 +86,6 @@
 
     </Grid>
 
-    <!-- Buttons -->
     <Grid Grid.Row="2"
           ColumnDefinitions="*,*"
           Margin="0,16,0,0">

@@ -8,21 +8,18 @@
   <Grid RowDefinitions="Auto,*,Auto"
         Margin="24,20">
 
-    <!-- Header -->
     <TextBlock Grid.Row="0"
                Text="Cart"
                FontSize="24"
                FontWeight="Bold"
                Margin="0,0,0,16"/>
 
-    <!-- Table -->
     <Border Grid.Row="1"
             BorderBrush="#E0E0E0"
             BorderThickness="1"
             CornerRadius="8">
       <Grid RowDefinitions="Auto,*">
 
-        <!-- Table header -->
         <Border Grid.Row="0"
                 BorderBrush="#E0E0E0"
                 BorderThickness="0,0,0,1"
@@ -37,7 +34,6 @@
           </Grid>
         </Border>
 
-        <!-- Table rows -->
         <ScrollViewer Grid.Row="1">
           <ItemsControl ItemsSource="{Binding Items}">
             <ItemsControl.ItemTemplate>
@@ -48,18 +44,15 @@
                   <Grid ColumnDefinitions="*,*,180,140,100,160"
                         VerticalAlignment="Center">
 
-                    <!-- Name -->
                     <TextBlock Grid.Column="0"
                                Text="{Binding Component.Name}"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"/>
 
-                    <!-- Manufacturer -->
                     <TextBlock Grid.Column="1"
                                Text="{Binding Component.Manufacturer}"
                                VerticalAlignment="Center"/>
 
-                    <!-- Quantity controls -->
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
                                 Spacing="12"
@@ -92,19 +85,16 @@
                               VerticalContentAlignment="Center"/>
                     </StackPanel>
 
-                    <!-- Available stock -->
                     <TextBlock Grid.Column="3"
                                Text="{Binding Component.Stock, StringFormat={}{0} in stock}"
                                VerticalAlignment="Center"
                                Foreground="#888"/>
 
-                    <!-- Price -->
                     <TextBlock Grid.Column="4"
                                Text="{Binding Subtotal, StringFormat={}{0:C}}"
                                VerticalAlignment="Center"
                                FontWeight="SemiBold"/>
 
-                    <!-- Remove button -->
                     <Button Grid.Column="5"
                             Content="Remove item"
                             Command="{Binding $parent[ItemsControl].((vm:CartViewModel)DataContext).RemoveItemCommand}"
@@ -126,7 +116,6 @@
       </Grid>
     </Border>
 
-    <!-- Footer -->
     <Grid Grid.Row="2"
           ColumnDefinitions="*,Auto"
           Margin="0,16,0,0">

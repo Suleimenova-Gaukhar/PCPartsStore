@@ -8,19 +8,16 @@
   <Grid RowDefinitions="Auto,*,Auto"
         Margin="24,20">
 
-    <!-- Header -->
     <TextBlock Grid.Row="0"
                Text="Checkout"
                FontSize="24"
                FontWeight="Bold"
                Margin="0,0,0,16"/>
 
-    <!-- Main content - two panels -->
     <Grid Grid.Row="1"
           ColumnDefinitions="360,*"
           Margin="0,0,0,16">
 
-      <!-- Left panel - Personal data form -->
       <Border Grid.Column="0"
               BorderBrush="#E0E0E0"
               BorderThickness="1"
@@ -61,7 +58,6 @@
                      Padding="10,8"/>
           </StackPanel>
 
-          <!-- Error message -->
           <TextBlock Text="{Binding StatusMessage}"
                      Foreground="#F9564F"
                      FontSize="13"
@@ -71,14 +67,12 @@
         </StackPanel>
       </Border>
 
-      <!-- Right panel - Order summary -->
       <Border Grid.Column="1"
               BorderBrush="#E0E0E0"
               BorderThickness="1"
               CornerRadius="8">
         <Grid RowDefinitions="Auto,*">
 
-          <!-- Summary header -->
           <Border Grid.Row="0"
                   BorderBrush="#E0E0E0"
                   BorderThickness="0,0,0,1"
@@ -91,7 +85,6 @@
             </Grid>
           </Border>
 
-          <!-- Summary rows -->
           <ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding CartItems}">
               <ItemsControl.ItemTemplate>
@@ -126,7 +119,6 @@
 
     </Grid>
 
-    <!-- Footer -->
     <Grid Grid.Row="2"
           ColumnDefinitions="*,Auto">
 

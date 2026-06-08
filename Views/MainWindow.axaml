@@ -17,7 +17,6 @@
 
       <DockPanel>
 
-        <!-- Switch account button at the bottom -->
         <Button DockPanel.Dock="Bottom"
                 Content="← Switch account"
                 Command="{Binding SwitchAccountCommand}"
@@ -29,10 +28,8 @@
                 Padding="8,10"
                 Margin="0,16,0,0"/>
 
-        <!-- Navigation buttons at the top -->
         <StackPanel Spacing="4">
 
-          <!-- Customer sidebar -->
           <TextBlock Text="Customer account"
                      HorizontalAlignment="Center"
                      Foreground="White"
@@ -75,7 +72,6 @@
                   Padding="8,10"
                   IsVisible="{Binding IsCustomer}"/>
 
-          <!-- Admin sidebar -->
           <TextBlock Text="Admin account"
                      HorizontalAlignment="Center"
                      Foreground="White"
@@ -124,7 +120,6 @@
 
     </Border>
 
-    <!-- Right content area -->
     <ContentControl Grid.Column="1"
                     Content="{Binding CurrentView}"/>
 

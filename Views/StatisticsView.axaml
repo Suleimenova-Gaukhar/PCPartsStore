@@ -13,7 +13,6 @@
                FontWeight="Bold"
                Margin="0,0,0,20"/>
 
-    <!-- Revenue by category table -->
     <Border Grid.Row="1"
             BorderBrush="#E0E0E0"
             BorderThickness="1"
@@ -43,7 +42,6 @@
       </StackPanel>
     </Border>
 
-    <!-- Sales summary -->
     <Border Grid.Row="2"
             BorderBrush="#E0E0E0"
             BorderThickness="1"
