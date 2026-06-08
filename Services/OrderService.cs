@@ -67,15 +67,16 @@ public class OrderService
     }
 
     public bool UpdateOrderStatus(Guid orderId, OrderStatus newStatus)
-    {
-        using var context = new AppDbContext();
-        var order = context.Orders.Find(orderId);
-        if (order is null || !order.CanChangeStatus)
-            return false;
-        order.Status = newStatus;
-        context.SaveChanges();
-        return true;
-    }
+        {
+            using var context = new AppDbContext();
+            var order = context.Orders
+                .FirstOrDefault(o => o.Id == orderId);
+            if (order is null || !order.CanChangeStatus)
+                return false;
+            order.Status = newStatus;
+            context.SaveChanges();
+            return true;
+        }
 
     public bool CancelOrder(Guid orderId)
     {

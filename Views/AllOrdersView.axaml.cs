@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using PCPartsStore.Models;
 using PCPartsStore.ViewModels;
 
 namespace PCPartsStore.Views;
@@ -15,10 +14,10 @@ public partial class AllOrdersView : UserControl
     private void OnOrderRowPressed(object? sender, PointerPressedEventArgs e)
     {
         if (sender is Border border &&
-            border.DataContext is Order order &&
+            border.DataContext is OrderRow row &&
             DataContext is AllOrdersViewModel vm)
         {
-            vm.SelectedOrder = order;
+            vm.SelectedOrderRow = row;
         }
     }
 }

@@ -8,14 +8,12 @@
   <Grid RowDefinitions="Auto,Auto,Auto"
         Margin="24,20">
 
-    <!-- Header -->
     <TextBlock Grid.Row="0"
                Text="All orders"
                FontSize="24"
                FontWeight="Bold"
                Margin="0,0,0,16"/>
 
-    <!-- Orders table -->
     <Border Grid.Row="1"
             BorderBrush="#E0E0E0"
             BorderThickness="1"
@@ -23,7 +21,6 @@
             Margin="0,0,0,24">
       <Grid RowDefinitions="Auto,Auto">
 
-        <!-- Table header -->
         <Border Grid.Row="0"
                 BorderBrush="#E0E0E0"
                 BorderThickness="0,0,0,1"
@@ -37,11 +34,10 @@
           </Grid>
         </Border>
 
-        <!-- Order rows -->
         <ItemsControl Grid.Row="1"
                       ItemsSource="{Binding Orders}">
           <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="models:Order">
+            <DataTemplate x:DataType="vm:OrderRow">
               <Border BorderBrush="#F0F0F0"
                       BorderThickness="0,0,0,1"
                       Padding="16,12"
@@ -50,28 +46,27 @@
                       VerticalAlignment="Center">
 
                   <TextBlock Grid.Column="0"
-                             Text="{Binding Id}"
+                             Text="{Binding Order.Id}"
                              FontSize="12"
                              Foreground="#555"
                              VerticalAlignment="Center"/>
 
                   <TextBlock Grid.Column="1"
-                             Text="{Binding Total, StringFormat={}{0:C}}"
+                             Text="{Binding Order.Total, StringFormat={}{0:C}}"
                              FontWeight="SemiBold"
                              VerticalAlignment="Center"/>
 
                   <TextBlock Grid.Column="2"
-                             Text="{Binding PlacedAt, StringFormat={}{0:dd.MM.yyyy}}"
+                             Text="{Binding Order.PlacedAt, StringFormat={}{0:dd.MM.yyyy}}"
                              VerticalAlignment="Center"/>
 
                   <TextBlock Grid.Column="3"
-                             Text="{Binding Status}"
+                             Text="{Binding Order.Status}"
                              VerticalAlignment="Center"/>
 
-                  <!-- Change status dropdown - only when CanChangeStatus -->
                   <ComboBox Grid.Column="4"
-                            ItemsSource="{Binding $parent[ItemsControl].((vm:AllOrdersViewModel)DataContext).Statuses}"
-                            SelectedItem="{Binding Status}"
+                            ItemsSource="{Binding Statuses}"
+                            SelectedItem="{Binding SelectedStatus}"
                             IsEnabled="{Binding CanChangeStatus}"
                             IsVisible="{Binding CanChangeStatus}"
                             HorizontalAlignment="Stretch"
@@ -89,7 +84,7 @@
 
     <!-- Order details section -->
     <StackPanel Grid.Row="2"
-                IsVisible="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}"
+                IsVisible="{Binding SelectedOrderRow, Converter={x:Static ObjectConverters.IsNotNull}}"
                 Margin="0,0,0,16">
 
       <TextBlock Text="Order details:"
@@ -97,26 +92,24 @@
                  FontWeight="Bold"
                  Margin="0,0,0,4"/>
 
-      <TextBlock Text="{Binding SelectedOrder.Id}"
+      <TextBlock Text="{Binding SelectedOrderRow.Order.Id}"
                  FontSize="14"
                  Foreground="#555"
                  Margin="0,0,0,8"/>
 
-      <!-- Customer details -->
       <StackPanel Margin="0,0,0,16">
         <TextBlock Text="Customer details:"
                    FontSize="15"
                    FontWeight="Bold"
                    Margin="0,0,0,8"/>
-        <TextBlock Text="{Binding SelectedOrder.Client.Name}"
+        <TextBlock Text="{Binding SelectedOrderRow.Order.Client.Name}"
                    FontSize="13"/>
-        <TextBlock Text="{Binding SelectedOrder.Client.Email}"
+        <TextBlock Text="{Binding SelectedOrderRow.Order.Client.Email}"
                    FontSize="13"/>
-        <TextBlock Text="{Binding SelectedOrder.Client.Phone}"
+        <TextBlock Text="{Binding SelectedOrderRow.Order.Client.Phone}"
                    FontSize="13"/>
       </StackPanel>
 
-      <!-- Items table -->
       <Border BorderBrush="#E0E0E0"
               BorderThickness="1"
               CornerRadius="8">
@@ -134,7 +127,7 @@
           </Border>
 
           <ItemsControl Grid.Row="1"
-                        ItemsSource="{Binding SelectedOrder.Items}">
+                        ItemsSource="{Binding SelectedOrderRow.Order.Items}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="models:CartItem">
                 <Border BorderBrush="#F0F0F0"
@@ -163,7 +156,6 @@
         </Grid>
       </Border>
 
-      <!-- Status message -->
       <TextBlock Text="{Binding StatusMessage}"
                  Foreground="#F9564F"
                  FontSize="13"
